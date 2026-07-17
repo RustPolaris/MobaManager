@@ -6,10 +6,20 @@ if (process.stdin.isTTY) {
   process.stdin.setRawMode(true);
 }
 
+function validateKey(key: string, index: number): number | null {
+  const num = Number(key);
+
+  if (num >= index) {
+    return null;
+  } else return num;
+}
+
 export class StateMachine {
+  //This function initializes the game
   static initGame() {
     Menus.printMenu(Menus.main);
 
+    //Verify if the key pressed is a number and run the appropriate action
     process.stdin.on("keypress", (str) => {
       if (!isNaN(str)) {
         const choice = Number(str) - 1;

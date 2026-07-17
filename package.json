@@ -2,8 +2,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "node main.js",
-    "dev": "tsx main.ts"
+    "start": "node src/main.js",
+    "dev": "tsx src/main.ts"
   },
   "devDependencies": {
     "@types/node": "^26.1.1"

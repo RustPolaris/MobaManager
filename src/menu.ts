@@ -18,6 +18,7 @@ export class Menus {
         text: "Exit",
         action: () => {
           console.log("Goodbye!");
+          process.exit(0);
         },
       },
     ],
