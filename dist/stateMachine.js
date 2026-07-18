@@ -4,17 +4,10 @@ readline.emitKeypressEvents(process.stdin);
 if (process.stdin.isTTY) {
     process.stdin.setRawMode(true);
 }
-function validateKey(key, index) {
-    const num = Number(key);
-    if (num >= index) {
-        return null;
-    }
-    else
-        return num;
-}
 export class StateMachine {
-    //This function initializes the game
-    static initGame() {
+    //Display start screen
+    static startScreen() {
+        console.clear();
         Menus.printMenu(Menus.main);
         //Verify if the key pressed is a number and run the appropriate action
         process.stdin.on("keypress", (str) => {
@@ -22,6 +15,13 @@ export class StateMachine {
                 const choice = Number(str) - 1;
                 Menus.main.options[choice]?.action();
             }
+        });
+    }
+    static waitForInput(resume) {
+        console.log("\n\nPress any key to continue...");
+        process.stdin.on("keypress", (str) => {
+            console.clear();
+            resume();
         });
     }
 }

@@ -1,4 +1,7 @@
+import { Functions } from "./functions.js";
+import { StateMachine } from "./stateMachine.js";
 export class Menus {
+    //Main Menu
     static main = {
         text: "Main Menu",
         options: [
@@ -11,7 +14,9 @@ export class Menus {
             {
                 text: "Teams List",
                 action: () => {
-                    console.log("Showing teams...");
+                    console.clear();
+                    Functions.listTeams();
+                    StateMachine.waitForInput(StateMachine.startScreen);
                 },
             },
             {
