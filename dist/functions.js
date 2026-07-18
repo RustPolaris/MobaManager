@@ -20,5 +20,15 @@ export class Functions {
         }
         return power;
     }
+    static delay(ms) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve();
+            }, ms);
+        });
+    }
+    static modifier() {
+        return 1 + Math.random();
+    }
 }
 //# sourceMappingURL=functions.js.map

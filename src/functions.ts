@@ -27,4 +27,16 @@ export class Functions {
 
     return power;
   }
+
+  static delay(ms: number) {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, ms);
+    });
+  }
+
+  static modifier() {
+    return 1 + Math.random();
+  }
 }

@@ -1,5 +1,6 @@
 import { Functions } from "./functions.js";
 import { StateMachine } from "./stateMachine.js";
+import { Teams } from "./teams.js";
 export class Menus {
     //Main Menu
     static main = {
@@ -8,7 +9,7 @@ export class Menus {
             {
                 text: "Simulate Match",
                 action: () => {
-                    console.log("Simulating...");
+                    StateMachine.matchSim(Teams.all[0], Teams.all[1]);
                 },
             },
             {
