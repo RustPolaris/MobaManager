@@ -30,5 +30,8 @@ export class Functions {
     static modifier() {
         return 1 + Math.random();
     }
+    static goldAtFifteen(macro, seed) {
+        return 15000 + (seed - 1 + macro * 0.08) * 5000;
+    }
 }
 //# sourceMappingURL=functions.js.map

@@ -1,4 +1,4 @@
-import { Teams } from "./teams.js";
+import { Teams, type Team } from "./teams.js";
 
 export class Functions {
   //Prints all teams
@@ -38,5 +38,9 @@ export class Functions {
 
   static modifier() {
     return 1 + Math.random();
+  }
+
+  static goldAtFifteen(macro: number, seed: number) {
+    return 15000 + (seed - 1 + macro * 0.08) * 5000;
   }
 }

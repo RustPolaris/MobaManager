@@ -33,22 +33,39 @@ export class StateMachine {
         const tempFirstTeam = new MatchTeam(firstTeam);
         const tempSecondTeam = new MatchTeam(secondTeam);
         console.clear();
-        console.log(firstTeam.name);
-        console.log(tempSecondTeam.team.name);
-        await Functions.delay(5000);
-        console.log("Two teams enter the stage!");
-        await Functions.delay(2000);
-        console.clear();
-        console.log(firstTeam.name + " seem ready and confident!");
-        await Functions.delay(2000);
-        console.clear();
-        console.log("Look at " + secondTeam + "! Their aura's too powerful!");
-        await Functions.delay(2000);
-        console.clear();
-        console.log("The troops are on the march!");
+        // console.log(firstTeam.name);
+        // console.log(tempSecondTeam.team.name);
+        // await Functions.delay(5000);
+        // console.log("Two teams enter the stage!");
+        // await Functions.delay(2000);
+        // console.clear();
+        // console.log(firstTeam.name + " seem ready and confident!");
+        // await Functions.delay(2000);
+        // console.clear();
+        // console.log("Look at " + secondTeam.name + "! Their aura's too powerful!");
+        // await Functions.delay(2000);
+        // console.clear();
+        // console.log("The troops are on the march!");
+        const goldExpected = 15000;
+        const sub = 0.5;
+        const finalMult = 5000;
         //Characters farm
-        let tOneGold = 15000 + (Math.random() - 0.5) * 5000;
-        let tTwoGold = 15000 + (Math.random() - 0.5) * 5000;
+        let tOneGold = Functions.goldAtFifteen(firstTeam.macro, Math.random());
+        let tTwoGold = Functions.goldAtFifteen(secondTeam.macro, Math.random());
+        console.log("t1 gold is: " + tOneGold);
+        console.log("\nt2 gold is:" + tTwoGold);
+        console.log("Possible gold ranges (macro 3): " +
+            Functions.goldAtFifteen(3, 0) +
+            " - " +
+            Functions.goldAtFifteen(3, 1));
+        console.log("Possible gold ranges (macro 5): " +
+            Functions.goldAtFifteen(5, 0) +
+            " - " +
+            Functions.goldAtFifteen(5, 1));
+        console.log("Possible gold ranges (macro 1): " +
+            Functions.goldAtFifteen(1, 0) +
+            " - " +
+            Functions.goldAtFifteen(1, 1));
         //15 mins obj fight
         //Characters farm
         //25 mins obj fight + winner ends
