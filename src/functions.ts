@@ -28,6 +28,7 @@ export class Functions {
     return power;
   }
 
+  // Helper function for delaying before continuing the program
   static delay(ms: number) {
     return new Promise<void>((resolve) => {
       setTimeout(() => {
@@ -36,11 +37,19 @@ export class Functions {
     });
   }
 
-  static modifier() {
-    return 1 + Math.random();
+  // Function for generating a team's gold at 15 minutes of game
+  static goldAtFifteen(macro: number, seed: number) {
+    return Math.floor(15000 + (seed ** (1 / (macro * 0.5)) - 0.5) * 5000);
   }
 
-  static goldAtFifteen(macro: number, seed: number) {
-    return 15000 + (seed - 1 + macro * 0.08) * 5000;
+  static getTeamMomentum(
+    atk: number,
+    seed: number,
+    goldOne: number,
+    goldTwo: number,
+  ) {
+    let momentum = (goldOne - goldTwo) * 0.0075;
+
+    return momentum * (seed ** (1 / atk) * 0.5);
   }
 }

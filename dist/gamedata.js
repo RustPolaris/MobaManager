@@ -4,6 +4,7 @@ export class MatchTeam {
         this.team = team;
     }
     gold = 0;
+    momentum = 0;
     kills = 0;
     xp = 0;
     towers = 0;

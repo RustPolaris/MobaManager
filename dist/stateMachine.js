@@ -50,23 +50,31 @@ export class StateMachine {
         const sub = 0.5;
         const finalMult = 5000;
         //Characters farm
-        let tOneGold = Functions.goldAtFifteen(firstTeam.macro, Math.random());
-        let tTwoGold = Functions.goldAtFifteen(secondTeam.macro, Math.random());
-        console.log("t1 gold is: " + tOneGold);
-        console.log("\nt2 gold is:" + tTwoGold);
-        console.log("Possible gold ranges (macro 3): " +
-            Functions.goldAtFifteen(3, 0) +
-            " - " +
-            Functions.goldAtFifteen(3, 1));
-        console.log("Possible gold ranges (macro 5): " +
-            Functions.goldAtFifteen(5, 0) +
-            " - " +
-            Functions.goldAtFifteen(5, 1));
-        console.log("Possible gold ranges (macro 1): " +
-            Functions.goldAtFifteen(1, 0) +
-            " - " +
-            Functions.goldAtFifteen(1, 1));
+        tempFirstTeam.gold = Functions.goldAtFifteen(firstTeam.macro, Math.random());
+        tempSecondTeam.gold = Functions.goldAtFifteen(secondTeam.macro, Math.random());
+        console.log("t1 gold is: " + tempFirstTeam.gold);
+        console.log("\nt2 gold is:" + tempSecondTeam.gold);
         //15 mins obj fight
+        tempFirstTeam.momentum = Functions.getTeamMomentum(firstTeam.atk, Math.random(), tempFirstTeam.gold, tempSecondTeam.gold);
+        tempSecondTeam.momentum = Functions.getTeamMomentum(secondTeam.atk, Math.random(), tempSecondTeam.gold, tempFirstTeam.gold);
+        console.log("First team momentum: " + tempFirstTeam.momentum);
+        console.log("Second team momentum: " + tempSecondTeam.momentum);
+        let a = 0, b = 0;
+        while (a != 5 && b != 5) {
+            if (tempFirstTeam.momentum - Math.random() * 20 >
+                tempSecondTeam.momentum - Math.random() * 20) {
+                a++;
+            }
+            else
+                b++;
+        }
+        // Print out winner of the fight based on BO5
+        if (a > b) {
+            console.log(firstTeam.name + " made them pay!");
+        }
+        else
+            console.log(secondTeam.name + " punished very well!");
+        // atk * advantage
         //Characters farm
         //25 mins obj fight + winner ends
     }
