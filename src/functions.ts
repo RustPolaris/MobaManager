@@ -52,4 +52,10 @@ export class Functions {
 
     return momentum * (seed ** (1 / atk) * 0.5);
   }
+
+  // Fetch a random string from an array of strings
+  static stringFetch(str: string[]) {
+    const index = Math.floor(Math.random() * str.length);
+    return str[index];
+  }
 }

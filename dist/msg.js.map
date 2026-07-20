@@ -1,0 +1,1 @@
+{"version":3,"file":"msg.js","sourceRoot":"","sources":["../src/msg.ts"],"names":[],"mappings":"AAAA,MAAM,OAAO,QAAQ;IACnB,MAAM,CAAC,SAAS,GAAa;QAC3B,uCAAuC;QACvC,+BAA+B;QAC/B,kCAAkC;QAClC,kCAAkC;QAClC,mCAAmC;QACnC,2BAA2B;QAC3B,iCAAiC;KAClC,CAAC;IAEF,MAAM,CAAC,QAAQ,GAAa;QAC1B,kCAAkC;QAClC,wBAAwB;QACxB,4BAA4B;QAC5B,+BAA+B;QAC/B,wBAAwB;KACzB,CAAC;CACH"}

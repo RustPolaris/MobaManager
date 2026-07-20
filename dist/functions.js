@@ -36,5 +36,10 @@ export class Functions {
         let momentum = (goldOne - goldTwo) * 0.0075;
         return momentum * (seed ** (1 / atk) * 0.5);
     }
+    // Fetch a random string from an array of strings
+    static stringFetch(str) {
+        const index = Math.floor(Math.random() * str.length);
+        return str[index];
+    }
 }
 //# sourceMappingURL=functions.js.map
