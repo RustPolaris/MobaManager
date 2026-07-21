@@ -8,5 +8,6 @@ function titleDrop() {
 }
 titleDrop();
 console.log("\n");
+StateMachine.init();
 StateMachine.startScreen();
 //# sourceMappingURL=main.js.map

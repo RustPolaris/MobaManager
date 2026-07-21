@@ -10,25 +10,22 @@ if (process.stdin.isTTY) {
     process.stdin.setRawMode(true);
 }
 export class StateMachine {
-    //Display start screen
-    static startScreen() {
-        console.clear();
-        Menus.printMenu(Menus.main);
-        //Verify if the key pressed is a number and run the appropriate action
+    // Set an input handler
+    static currentInputHandler;
+    static init() {
         process.stdin.on("keypress", (str) => {
-            if (!isNaN(str)) {
-                const choice = Number(str) - 1;
-                Menus.main.options[choice]?.action();
-            }
+            StateMachine.currentInputHandler(str);
         });
     }
-    //Wait for an input and then continue from the function given
-    static waitForInput(resume) {
-        console.log("\n\nPress any key to continue...");
-        process.stdin.on("keypress", (str) => {
-            console.clear();
-            resume();
-        });
+    //Display start screen
+    static startScreen() {
+        Menus.printMenu(Menus.mainMenu);
+        this.currentInputHandler = this.keyHandlerMainMenu;
+        //Verify if the key pressed is a number and run the appropriate action
+    }
+    static teamsScreen() {
+        Menus.printMenu(Menus.teamsListMenu);
+        this.currentInputHandler = this.keyhandlerTeamsList;
     }
     static async matchSim(firstTeam, secondTeam) {
         const tempFirstTeam = new MatchTeam(firstTeam);
@@ -66,6 +63,17 @@ export class StateMachine {
         // atk * advantage
         //Characters farm
         //25 mins obj fight + winner ends
+    }
+    // Main Menu Input Handler function
+    static keyHandlerMainMenu(str) {
+        if (!isNaN(Number(str))) {
+            const choice = Number(str) - 1;
+            Menus.mainMenu.options[choice]?.action();
+        }
+    }
+    // Teams List Input Hander function
+    static keyhandlerTeamsList() {
+        StateMachine.startScreen();
     }
 }
 //# sourceMappingURL=stateMachine.js.map

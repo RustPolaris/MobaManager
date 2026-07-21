@@ -1,9 +1,10 @@
+import { stat } from "node:fs";
 import { Functions } from "./functions.js";
 import { StateMachine } from "./stateMachine.js";
 import { Teams } from "./teams.js";
 export class Menus {
     //Main Menu
-    static main = {
+    static mainMenu = {
         text: "Main Menu",
         options: [
             {
@@ -15,9 +16,7 @@ export class Menus {
             {
                 text: "Teams List",
                 action: () => {
-                    console.clear();
-                    Functions.listTeams();
-                    StateMachine.waitForInput(StateMachine.startScreen);
+                    StateMachine.teamsScreen();
                 },
             },
             {
@@ -29,7 +28,17 @@ export class Menus {
             },
         ],
     };
+    static teamsListMenu = {
+        text: Functions.getTeamList(),
+        options: [
+            {
+                text: "Press anything to continue",
+                action: StateMachine.startScreen,
+            },
+        ],
+    };
     static printMenu(menu) {
+        process.stdout.write("\x1Bc");
         console.log(menu.text + "\n");
         for (let i = 1; i <= menu.options.length; i++) {
             console.log(i + ". " + menu.options[i - 1]?.text);

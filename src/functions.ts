@@ -3,6 +3,8 @@ import { Teams, type Team } from "./teams.js";
 export class Functions {
   //Prints all teams
   static listTeams() {
+    console.clear();
+    console.log("Number of teams:", Teams.all.length);
     for (const team of Teams.all) {
       console.log("\n" + team.name);
 
@@ -57,5 +59,29 @@ export class Functions {
   static stringFetch(str: string[]) {
     const index = Math.floor(Math.random() * str.length);
     return str[index];
+  }
+
+  static getTeamList() {
+    let teamList = "";
+
+    for (const team of Teams.all) {
+      let pwrlvl: typeof Functions.getPwrLvl = Functions.getPwrLvl;
+      const spcCount = 15 - team.name.length;
+      let space = " ";
+
+      const ovr = (team.atk + team.def + team.macro) / 2;
+
+      teamList +=
+        team.name +
+        space.repeat(spcCount) +
+        pwrlvl(ovr) +
+        " || " +
+        pwrlvl(team.atk) +
+        " || " +
+        pwrlvl(team.macro) +
+        " |\n";
+    }
+
+    return teamList;
   }
 }

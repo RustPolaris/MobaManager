@@ -2,6 +2,8 @@ import { Teams } from "./teams.js";
 export class Functions {
     //Prints all teams
     static listTeams() {
+        console.clear();
+        console.log("Number of teams:", Teams.all.length);
         for (const team of Teams.all) {
             console.log("\n" + team.name);
             const ovr = (team.atk + team.def + team.macro) / 2;
@@ -40,6 +42,25 @@ export class Functions {
     static stringFetch(str) {
         const index = Math.floor(Math.random() * str.length);
         return str[index];
+    }
+    static getTeamList() {
+        let teamList = "";
+        for (const team of Teams.all) {
+            let pwrlvl = Functions.getPwrLvl;
+            const spcCount = 15 - team.name.length;
+            let space = " ";
+            const ovr = (team.atk + team.def + team.macro) / 2;
+            teamList +=
+                team.name +
+                    space.repeat(spcCount) +
+                    pwrlvl(ovr) +
+                    " || " +
+                    pwrlvl(team.atk) +
+                    " || " +
+                    pwrlvl(team.macro) +
+                    " |\n";
+        }
+        return teamList;
     }
 }
 //# sourceMappingURL=functions.js.map

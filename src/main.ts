@@ -13,4 +13,5 @@ titleDrop();
 
 console.log("\n");
 
+StateMachine.init();
 StateMachine.startScreen();
