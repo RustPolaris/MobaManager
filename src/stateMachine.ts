@@ -6,12 +6,15 @@ import { Functions } from "./functions.js";
 import * as readline from "readline";
 import { MatchTeam } from "./gamedata.js";
 import { Messages } from "./msg.js";
+import { get } from "http";
+import { clear } from "console";
 
 readline.emitKeypressEvents(process.stdin);
 if (process.stdin.isTTY) {
   process.stdin.setRawMode(true);
 }
 
+// A Screen object that unites the data content of a Menu object with its intended input logic
 interface Screen {
   content: Menu;
   input: (str: string) => void;
@@ -38,10 +41,10 @@ export class StateMachine {
   }
 
   static async matchSim(firstTeam: Team, secondTeam: Team) {
+    screenClear();
+    this.currentInputHandler = standby;
     const tempFirstTeam = new MatchTeam(firstTeam);
     const tempSecondTeam = new MatchTeam(secondTeam);
-
-    console.clear();
 
     //Characters farm
     tempFirstTeam.gold = Functions.goldAtFifteen(
@@ -53,8 +56,17 @@ export class StateMachine {
       Math.random(),
     );
 
-    console.log(firstTeam.name + "'s gold @15 is: " + tempFirstTeam.gold);
-    console.log(secondTeam.name + "'s gold @15 is:" + tempSecondTeam.gold);
+    const lead = getLeadingTeam(tempFirstTeam, tempSecondTeam);
+
+    await Functions.delay(3000);
+
+    if (lead === null) {
+      console.log(
+        "We're nearing fifteen minutes and neither team seems to have a big advantage here...",
+      );
+    } else {
+      console.log(lead.team.name + " has a nice lead going into 15 minutes...");
+    }
 
     //15 mins obj fight
     tempFirstTeam.momentum = Functions.getTeamMomentum(
@@ -70,13 +82,11 @@ export class StateMachine {
       tempFirstTeam.gold,
     );
 
-    console.log(firstTeam.name + "'s momentum: " + tempFirstTeam.momentum);
-    console.log(secondTeam.name + "'s momentum: " + tempSecondTeam.momentum);
-
     //Test momentum in a BO5 to decide the objective fight at fifteen
     let a = 0,
       b = 0;
-    while (a != 5 && b != 5) {
+    while (a != 3 && b != 3) {
+      await Functions.delay(3000);
       if (
         tempFirstTeam.momentum - Math.random() * 20 >
         tempSecondTeam.momentum - Math.random() * 20
@@ -92,30 +102,15 @@ export class StateMachine {
     }
 
     // Print out winner of the fight based on BO5
+    screenClear();
     if (a > b) {
       console.log(firstTeam.name + Functions.stringFetch(Messages.fightWin));
     } else
       console.log(secondTeam.name + Functions.stringFetch(Messages.fightWin));
-    // atk * advantage
 
-    //Characters farm
-
-    //25 mins obj fight + winner ends
+    //TEMPORARY!!!
+    this.currentInputHandler = teamListScreen.input;
   }
-
-  // // Main Menu Input Handler function
-  // static keyHandlerMainMenu(str: string) {
-  //   if (!isNaN(Number(str))) {
-  //     const choice = Number(str) - 1;
-
-  //     Menus.mainMenu.options[choice]?.action();
-  //   }
-  // }
-
-  // Teams List Input Hander function
-  // static keyhandlerTeamsList() {
-  //   StateMachine.startScreen();
-  // }
 }
 
 const mainMenuScreen: Screen = {
@@ -132,6 +127,7 @@ const mainMenuScreen: Screen = {
           StateMachine.teamsScreen();
           break;
         case 3:
+          screenClear();
           console.log("Goodbye!");
           process.exit(0);
       }
@@ -146,11 +142,29 @@ const teamListScreen: Screen = {
   },
 };
 
+// Receives a Menu object and prints the text for the title and options
 function printMenu(menu: Menu) {
-  process.stdout.write("\x1Bc");
+  screenClear();
+
   console.log(menu.text + "\n");
 
   for (let i = 1; i <= menu.options.length; i++) {
     console.log(i + ". " + menu.options[i - 1]);
   }
+}
+
+function standby(str: string) {
+  //Do nothing
+}
+
+function getLeadingTeam(tOne: MatchTeam, tTwo: MatchTeam) {
+  if (tOne.gold - tTwo.gold > 1000) {
+    return tOne;
+  } else if (tTwo.gold - tOne.gold > 1000) {
+    return tTwo;
+  } else return null;
+}
+
+function screenClear() {
+  process.stdout.write("\x1Bc");
 }
