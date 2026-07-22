@@ -2,7 +2,6 @@ import { Menus } from "./menu.js";
 import { Teams } from "./teams.js";
 import { Functions } from "./functions.js";
 import * as readline from "readline";
-import { setTimeout } from "node:timers/promises";
 import { MatchTeam } from "./gamedata.js";
 import { Messages } from "./msg.js";
 readline.emitKeypressEvents(process.stdin);
@@ -19,13 +18,12 @@ export class StateMachine {
     }
     //Display start screen
     static startScreen() {
-        Menus.printMenu(Menus.mainMenu);
-        this.currentInputHandler = this.keyHandlerMainMenu;
-        //Verify if the key pressed is a number and run the appropriate action
+        printMenu(mainMenuScreen.content);
+        this.currentInputHandler = mainMenuScreen.input;
     }
     static teamsScreen() {
-        Menus.printMenu(Menus.teamsListMenu);
-        this.currentInputHandler = this.keyhandlerTeamsList;
+        printMenu(teamListScreen.content);
+        this.currentInputHandler = teamListScreen.input;
     }
     static async matchSim(firstTeam, secondTeam) {
         const tempFirstTeam = new MatchTeam(firstTeam);
@@ -64,16 +62,37 @@ export class StateMachine {
         //Characters farm
         //25 mins obj fight + winner ends
     }
-    // Main Menu Input Handler function
-    static keyHandlerMainMenu(str) {
+}
+const mainMenuScreen = {
+    content: Menus.mainMenu,
+    input: (str) => {
         if (!isNaN(Number(str))) {
-            const choice = Number(str) - 1;
-            Menus.mainMenu.options[choice]?.action();
+            const choice = Number(str);
+            switch (choice) {
+                case 1:
+                    StateMachine.matchSim(Teams.all[0], Teams.all[1]);
+                    break;
+                case 2:
+                    StateMachine.teamsScreen();
+                    break;
+                case 3:
+                    console.log("Goodbye!");
+                    process.exit(0);
+            }
         }
-    }
-    // Teams List Input Hander function
-    static keyhandlerTeamsList() {
+    },
+};
+const teamListScreen = {
+    content: Menus.teamsListMenu,
+    input: (str) => {
         StateMachine.startScreen();
+    },
+};
+function printMenu(menu) {
+    process.stdout.write("\x1Bc");
+    console.log(menu.text + "\n");
+    for (let i = 1; i <= menu.options.length; i++) {
+        console.log(i + ". " + menu.options[i - 1]);
     }
 }
 //# sourceMappingURL=stateMachine.js.map

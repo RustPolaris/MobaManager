@@ -1,9 +1,9 @@
 import { Menus } from "./menu.js";
-import { Teams } from "./teams.js";
+import type { Menu } from "./menu.js";
 import type { Team } from "./teams.js";
+import { Teams } from "./teams.js";
 import { Functions } from "./functions.js";
 import * as readline from "readline";
-import { setTimeout } from "node:timers/promises";
 import { MatchTeam } from "./gamedata.js";
 import { Messages } from "./msg.js";
 
@@ -12,9 +12,9 @@ if (process.stdin.isTTY) {
   process.stdin.setRawMode(true);
 }
 
-interface screen {
-  content: string;
-  input: void;
+interface Screen {
+  content: Menu;
+  input: (str: string) => void;
 }
 
 export class StateMachine {
@@ -28,15 +28,13 @@ export class StateMachine {
   }
   //Display start screen
   static startScreen() {
-    Menus.printMenu(Menus.mainMenu);
-    this.currentInputHandler = this.keyHandlerMainMenu;
-
-    //Verify if the key pressed is a number and run the appropriate action
+    printMenu(mainMenuScreen.content);
+    this.currentInputHandler = mainMenuScreen.input;
   }
 
   static teamsScreen() {
-    Menus.printMenu(Menus.teamsListMenu);
-    this.currentInputHandler = this.keyhandlerTeamsList;
+    printMenu(teamListScreen.content);
+    this.currentInputHandler = teamListScreen.input;
   }
 
   static async matchSim(firstTeam: Team, secondTeam: Team) {
@@ -105,17 +103,54 @@ export class StateMachine {
     //25 mins obj fight + winner ends
   }
 
-  // Main Menu Input Handler function
-  static keyHandlerMainMenu(str: string) {
-    if (!isNaN(Number(str))) {
-      const choice = Number(str) - 1;
+  // // Main Menu Input Handler function
+  // static keyHandlerMainMenu(str: string) {
+  //   if (!isNaN(Number(str))) {
+  //     const choice = Number(str) - 1;
 
-      Menus.mainMenu.options[choice]?.action();
-    }
-  }
+  //     Menus.mainMenu.options[choice]?.action();
+  //   }
+  // }
 
   // Teams List Input Hander function
-  static keyhandlerTeamsList() {
+  // static keyhandlerTeamsList() {
+  //   StateMachine.startScreen();
+  // }
+}
+
+const mainMenuScreen: Screen = {
+  content: Menus.mainMenu,
+  input: (str) => {
+    if (!isNaN(Number(str))) {
+      const choice = Number(str);
+
+      switch (choice) {
+        case 1:
+          StateMachine.matchSim(Teams.all[0]!, Teams.all[1]!);
+          break;
+        case 2:
+          StateMachine.teamsScreen();
+          break;
+        case 3:
+          console.log("Goodbye!");
+          process.exit(0);
+      }
+    }
+  },
+};
+
+const teamListScreen: Screen = {
+  content: Menus.teamsListMenu,
+  input: (str) => {
     StateMachine.startScreen();
+  },
+};
+
+function printMenu(menu: Menu) {
+  process.stdout.write("\x1Bc");
+  console.log(menu.text + "\n");
+
+  for (let i = 1; i <= menu.options.length; i++) {
+    console.log(i + ". " + menu.options[i - 1]);
   }
 }
