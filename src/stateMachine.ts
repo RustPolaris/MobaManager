@@ -3,16 +3,11 @@ import type { Menu } from "./menu.js";
 import type { Team } from "./teams.js";
 import { Teams } from "./teams.js";
 import { Functions } from "./functions.js";
-import * as readline from "readline";
+// import * as readline from "readline";
 import { MatchTeam } from "./gamedata.js";
 import { Messages } from "./msg.js";
-import { get } from "http";
-import { clear } from "console";
-
-readline.emitKeypressEvents(process.stdin);
-if (process.stdin.isTTY) {
-  process.stdin.setRawMode(true);
-}
+// import { get } from "http";
+// import { clear } from "console";
 
 // A Screen object that unites the data content of a Menu object with its intended input logic
 interface Screen {
