@@ -1,7 +1,10 @@
 import type { Team } from "./teams.js";
 
+export const title = "MOBAManager";
+export const ver = "0.1";
+
 export class MatchTeam {
-  constructor(public team: Team) {}
+  constructor(team: Team) {}
 
   gold = 0;
   momentum = 0;

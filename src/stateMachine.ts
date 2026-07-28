@@ -8,6 +8,7 @@ import { MatchTeam } from "./gamedata.js";
 import { Messages } from "./msg.js";
 // import { get } from "http";
 // import { clear } from "console";
+import { renderMainMenu } from "./ui/renderer.js";
 
 // A Screen object that unites the data content of a Menu object with its intended input logic
 interface Screen {
@@ -17,27 +18,22 @@ interface Screen {
 
 export class StateMachine {
   // Set an input handler
-  static currentInputHandler: (str: string) => void;
 
+  //Fire upon pressing 'Start!'
   static init() {
-    process.stdin.on("keypress", (str) => {
-      StateMachine.currentInputHandler(str);
-    });
+    renderMainMenu();
   }
   //Display start screen
   static startScreen() {
     printMenu(mainMenuScreen.content);
-    this.currentInputHandler = mainMenuScreen.input;
   }
 
   static teamsScreen() {
     printMenu(teamListScreen.content);
-    this.currentInputHandler = teamListScreen.input;
   }
 
   static async matchSim(firstTeam: Team, secondTeam: Team) {
     screenClear();
-    this.currentInputHandler = standby;
     const tempFirstTeam = new MatchTeam(firstTeam);
     const tempSecondTeam = new MatchTeam(secondTeam);
 
